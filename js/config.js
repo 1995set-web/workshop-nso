@@ -1,22 +1,21 @@
 // ============================================================
-//  НАСТРОЙКА ВОРКШОПА — заполните перед деплоем
+//  НАСТРОЙКА ВОРКШОПА
 // ============================================================
 
-// PIN-код для входа в режим спикера (4 цифры)
-window.SPEAKER_PIN = "2204"; // 22 апреля = дата воркшопа
+// PIN-код для входа в режим спикера
+window.SPEAKER_PIN = "2204"; // 22 апреля
 
-// Firebase конфиг — получите на https://firebase.google.com
-// Если оставить как есть — сайт работает в LOCAL режиме (только на одном устройстве)
+// Firebase конфиг
 window.FIREBASE_CONFIG = {
-  apiKey:            "YOUR_API_KEY",
-  authDomain:        "YOUR_PROJECT.firebaseapp.com",
-  databaseURL:       "https://YOUR_PROJECT-default-rtdb.firebaseio.com",
-  projectId:         "YOUR_PROJECT",
-  storageBucket:     "YOUR_PROJECT.appspot.com",
-  messagingSenderId: "YOUR_SENDER_ID",
-  appId:             "YOUR_APP_ID"
+  apiKey:            "AIzaSyAmt0k78UE7hVh3l8pX71pMzPvBR6fFphw",
+  authDomain:        "workshop-nso.firebaseapp.com",
+  databaseURL:       "https://workshop-nso-default-rtdb.europe-west1.firebasedatabase.app",
+  projectId:         "workshop-nso",
+  storageBucket:     "workshop-nso.firebasestorage.app",
+  messagingSenderId: "540927741959",
+  appId:             "1:540927741959:web:7cf2278477099b369e5aa2",
+  measurementId:     "G-B3BYR0DB8E"
 };
 
-// Если true — Firebase не используется, управление только локальное
-// Автоматически переключается в true если конфиг не заполнен
-window.LOCAL_MODE = (window.FIREBASE_CONFIG.apiKey === "YOUR_API_KEY");
+// false = используем Firebase (синхронизация между устройствами)
+window.LOCAL_MODE = false;
