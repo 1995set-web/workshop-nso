@@ -1,0 +1,20 @@
+{
+  "rules": {
+    "session": {
+      ".read": true,
+      ".write": true
+    },
+    "presence": {
+      ".read": true,
+      ".write": true
+    },
+    "questions": {
+      ".read": true,
+      ".write": true
+    },
+    "reactions": {
+      ".read": true,
+      ".write": true
+    }
+  }
+}
