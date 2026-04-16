@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#1D2633">
+  <title>ИИ × Правительство НСО · Воркшоп 22 апреля 2026</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <!-- Firebase (compat SDK, no bundler needed) -->
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
+</head>
+<body>
+
+<!-- ═══════ HEADER ═══════ -->
+<header id="app-header">
+  <div class="header-logo">
+    <div class="logo21">
+      <div class="logo21-block">21</div>
+      <span class="logo21-school">ШКОЛА</span>
+    </div>
+  </div>
+  <div class="header-title">ИИ × ПРАВИТЕЛЬСТВО НСО · <span id="header-block-name">Открытие</span></div>
+  <div class="header-meta">
+    <span class="slide-counter" id="slide-counter">1 / 35</span>
+    <span class="online-badge">
+      <span class="online-dot"></span>
+      <span id="online-count">—</span>
+    </span>
+  </div>
+</header>
+
+<!-- PROGRESS BAR -->
+<div id="progress-bar"><div id="progress-fill"></div></div>
+
+<!-- ═══════ SLIDES ═══════ -->
+<div id="slide-container">
+  <!-- Slides injected by participant.js -->
+</div>
+
+<!-- ═══════ BOTTOM BAR ═══════ -->
+<div id="bottom-bar">
+  <div class="bottom-block-info">
+    <span class="block-dot"></span>
+    <span class="block-name" id="block-name">Открытие</span>
+  </div>
+
+  <div class="bottom-actions">
+    <button id="copy-btn" style="display:none">
+      <span class="copy-btn-text">📋 Скопировать промпт</span>
+    </button>
+  </div>
+
+  <div style="display:flex;gap:6px;align-items:center;flex-shrink:0">
+    <div class="bottom-ai-links">
+      <a href="https://chat.qwen.ai"    target="_blank" class="ai-chip">Qwen</a>
+      <a href="https://gigachat.ru"     target="_blank" class="ai-chip gigachat">GigaChat</a>
+      <a href="https://chat.deepseek.com" target="_blank" class="ai-chip">DeepSeek</a>
+      <a href="https://perplexity.ai"   target="_blank" class="ai-chip">Perplexity</a>
+    </div>
+    <button id="artifacts-btn">📄 Артефакты</button>
+  </div>
+</div>
+
+<!-- COPY DROPDOWN -->
+<div id="copy-dropdown"></div>
+
+<!-- ═══════ TASK PANEL ═══════ -->
+<div id="task-panel">
+  <button id="task-close" aria-label="Закрыть задание">✕</button>
+  <div id="task-content">
+    <!-- Injected by JS when speaker opens task -->
+  </div>
+</div>
+
+<!-- ═══════ ARTIFACTS PANEL ═══════ -->
+<div id="artifacts-panel">
+  <div class="artifacts-header">
+    <div class="artifacts-title">📄 Артефакты воркшопа</div>
+    <button id="artifacts-close">✕</button>
+  </div>
+  <div id="artifact-tabs" class="artifact-tabs"></div>
+  <div id="artifacts-content"></div>
+</div>
+
+<!-- ═══════ REACTIONS (left fab group) ═══════ -->
+<div id="reactions-bar">
+  <button class="reaction-btn" data-reaction="👍" title="Понял">
+    👍<span class="reaction-count" id="rc-1">0</span>
+  </button>
+  <button class="reaction-btn" data-reaction="🤔" title="Не понял">
+    🤔<span class="reaction-count" id="rc-2">0</span>
+  </button>
+  <button class="reaction-btn" data-reaction="⚡" title="Вопрос">
+    ⚡<span class="reaction-count" id="rc-3">0</span>
+  </button>
+</div>
+
+<!-- PROMPT BUILDER FAB -->
+<button id="builder-fab" title="Конструктор промпта">⚗️</button>
+
+<!-- NOTEPAD FAB -->
+<button id="notepad-fab" title="Мои заметки">📝</button>
+
+<!-- ═══════ PROMPT BUILDER PANEL ═══════ -->
+<div id="builder-panel">
+  <div class="builder-header">
+    <div class="builder-title">⚗️ Конструктор промпта</div>
+    <button id="builder-close">✕</button>
+  </div>
+
+  <div class="builder-field">
+    <label class="builder-label" for="builder-role">Роль</label>
+    <input id="builder-role" class="builder-input" type="text" placeholder="Ты — опытный...">
+  </div>
+  <div class="builder-field">
+    <label class="builder-label" for="builder-context">Контекст</label>
+    <textarea id="builder-context" class="builder-textarea" placeholder="Ситуация, вводные данные..."></textarea>
+  </div>
+  <div class="builder-field">
+    <label class="builder-label" for="builder-task">Задача</label>
+    <textarea id="builder-task" class="builder-textarea" placeholder="Что конкретно сделать..."></textarea>
+  </div>
+  <div class="builder-field">
+    <label class="builder-label" for="builder-format">Формат</label>
+    <input id="builder-format" class="builder-input" type="text" placeholder="Таблица / 3 пункта / до 200 слов...">
+  </div>
+  <div class="builder-field">
+    <label class="builder-label" for="builder-constraint">Ограничение</label>
+    <input id="builder-constraint" class="builder-input" type="text" placeholder="Без... / Только... / Не придумывать...">
+  </div>
+
+  <div class="sp-section-title" style="margin-top:12px;font-size:10px;color:var(--gray-dim)">ПРЕДПРОСМОТР</div>
+  <div id="builder-preview" class="builder-preview">Заполните поля выше...</div>
+  <button id="builder-copy-btn">📋 Скопировать промпт</button>
+</div>
+
+<!-- ═══════ NOTEPAD PANEL ═══════ -->
+<div id="notepad-panel">
+  <div class="notepad-header">
+    <div class="notepad-title">📝 Мои заметки</div>
+    <button id="notepad-clear">Очистить</button>
+  </div>
+  <textarea id="notepad-textarea" placeholder="Пишите здесь во время воркшопа...&#10;Заметки сохраняются автоматически."></textarea>
+</div>
+
+<!-- ═══════ Q&A FAB ═══════ -->
+<button id="qa-fab" title="Задать вопрос">❓</button>
+
+<!-- Q&A PANEL -->
+<div id="qa-panel">
+  <div class="qa-title">Задать вопрос спикеру</div>
+  <textarea id="qa-textarea" placeholder="Введите ваш вопрос..."></textarea>
+  <button id="qa-send">Отправить</button>
+  <div class="qa-note">Анонимно · виден только спикеру</div>
+</div>
+
+<!-- ═══════ DEMO OVERLAY ═══════ -->
+<div id="demo-overlay">
+  <div class="demo-overlay-text">👆 Смотрите на экран</div>
+  <div class="demo-overlay-sub">Идёт демонстрация</div>
+</div>
+
+<!-- ═══════ OFFLINE NOTICE ═══════ -->
+<div id="offline-notice">⚡ Нет соединения — показан последний слайд</div>
+
+<!-- TOAST -->
+<div id="toast"></div>
+
+<!-- ═══════ SCRIPTS ═══════ -->
+<script src="js/config.js"></script>
+<script src="js/data.js"></script>
+<script src="js/sync.js"></script>
+<script src="js/participant.js"></script>
+
+</body>
+</html>

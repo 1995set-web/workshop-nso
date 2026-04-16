@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#1D2633">
+  <title>СПИКЕР · ИИ × НСО 2026</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
+</head>
+<body class="speaker-mode">
+
+<!-- ═══════ PIN MODAL ═══════ -->
+<div id="pin-modal">
+  <div class="pin-box">
+    <div class="pin-logo">
+      <div class="logo21" style="justify-content:center">
+        <div class="logo21-block" style="font-size:20px;padding:4px 12px">21</div>
+        <span class="logo21-school">ШКОЛА</span>
+      </div>
+    </div>
+    <div class="pin-title">Режим спикера</div>
+    <div class="pin-sub">Введите PIN-код для входа</div>
+    <input id="pin-input" type="password" inputmode="numeric" maxlength="4" placeholder="● ● ● ●">
+    <div class="pin-error" id="pin-error"></div>
+    <button id="pin-submit">Войти</button>
+    <div style="margin-top:16px">
+      <a href="index.html" style="font-size:12px;color:var(--gray-dim)">← Режим участника</a>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════ SPEAKER HEADER ═══════ -->
+<header id="speaker-header">
+  <div class="sp-header-logo">
+    <div class="logo21">
+      <div class="logo21-block">21</div>
+      <span class="logo21-school">ШКОЛА</span>
+    </div>
+    <span class="sp-header-badge">СПИКЕР</span>
+  </div>
+
+  <div class="sp-header-timer timer-running" id="sp-header-timer">00:00</div>
+
+  <div style="display:flex;align-items:center;gap:20px">
+    <div class="sp-header-block" id="sp-block-name">Открытие</div>
+    <div class="sp-header-participants">
+      <span class="online-dot"></span>
+      <span id="sp-online-count">—</span> онлайн
+    </div>
+    <a href="index.html" target="_blank" style="font-size:12px;color:var(--gray-dim);border:1px solid rgba(255,255,255,0.1);padding:4px 10px;border-radius:6px;white-space:nowrap">
+      Вид участника ↗
+    </a>
+  </div>
+</header>
+
+<div id="progress-bar"><div id="progress-fill"></div></div>
+
+<!-- ═══════ SPEAKER LAYOUT ═══════ -->
+<div id="speaker-layout">
+
+  <!-- LEFT: Filmstrip -->
+  <div id="filmstrip">
+    <!-- Injected by speaker.js -->
+  </div>
+
+  <!-- CENTER: Preview + nav -->
+  <div id="speaker-center">
+    <div id="preview-container">
+      <!-- Slide preview rendered here -->
+    </div>
+    <div class="speaker-nav-bar">
+      <button class="sp-nav-btn" id="sp-prev" disabled>◀</button>
+      <span id="sp-slide-info">1 / 35</span>
+      <button class="sp-nav-btn" id="sp-next">▶</button>
+      <span style="font-size:11px;color:var(--gray-dim);margin-left:8px">← → / Пробел</span>
+    </div>
+  </div>
+
+  <!-- RIGHT: Controls panel -->
+  <div id="speaker-panel">
+
+    <!-- Timer -->
+    <div class="sp-section">
+      <div class="sp-section-title">⏱ ТАЙМЕР БЛОКА</div>
+      <div class="sp-timer">
+        <div class="timer-block-name" id="timer-block-name">Открытие</div>
+        <div class="timer-display timer-running" id="timer-display">05:00</div>
+        <div class="timer-controls">
+          <button class="timer-btn primary" id="timer-start">▶ Старт</button>
+          <button class="timer-btn" id="timer-pause">⏸</button>
+          <button class="timer-btn" id="timer-reset">↺</button>
+        </div>
+        <div class="timer-controls" style="margin-top:6px">
+          <button class="timer-block-btn timer-btn" data-block="1">Б1</button>
+          <button class="timer-block-btn timer-btn" data-block="2">Б2</button>
+          <button class="timer-block-btn timer-btn" data-block="3">Б3</button>
+          <button class="timer-block-btn timer-btn" data-block="4">Б4</button>
+          <button class="timer-block-btn timer-btn" data-block="6">Б5</button>
+          <button class="timer-block-btn timer-btn" data-block="7">Б6</button>
+          <button class="timer-block-btn timer-btn" data-block="8">Б7</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Controls -->
+    <div class="sp-section">
+      <div class="sp-section-title">🎛️ УПРАВЛЕНИЕ УЧАСТНИКАМИ</div>
+      <div class="sp-controls">
+        <div class="sp-toggle" id="toggle-task">
+          <span class="sp-toggle-label">📋 Показать задание</span>
+          <span class="sp-toggle-state">Закрыто</span>
+        </div>
+        <div class="sp-toggle" id="toggle-demo">
+          <span class="sp-toggle-label">🎬 Демо-режим</span>
+          <span class="sp-toggle-state">Выключен</span>
+        </div>
+      </div>
+      <div style="font-size:10px;color:var(--gray-dim);margin-top:8px;line-height:1.5">
+        Горячие клавиши: <strong>→</strong> следующий · <strong>←</strong> предыдущий ·
+        <strong>T</strong> задание · <strong>D</strong> демо · <strong>S</strong> таймер
+      </div>
+    </div>
+
+    <!-- Quick copy prompt -->
+    <div class="sp-section">
+      <div class="sp-section-title">📋 БЫСТРОЕ КОПИРОВАНИЕ ПРОМПТА</div>
+      <select id="sp-prompt-select" style="width:100%;background:var(--dark);border:1px solid rgba(255,255,255,0.1);color:var(--white);padding:8px;border-radius:6px;font-family:var(--font);font-size:12px;margin-bottom:8px;outline:none">
+        <option>— нет промптов на этом слайде —</option>
+      </select>
+      <button id="sp-copy-prompt" class="timer-btn primary" style="width:100%" disabled>📋 Скопировать промпт</button>
+    </div>
+
+    <!-- Speaker notes -->
+    <div class="sp-section">
+      <div class="sp-section-title">📖 ЗАМЕТКИ СПИКЕРА</div>
+      <div class="sp-notes-text" id="sp-notes">—</div>
+    </div>
+
+    <!-- Participants -->
+    <div class="sp-section">
+      <div class="sp-section-title">👥 УЧАСТНИКИ</div>
+      <div class="sp-participants">
+        <div class="sp-participant-count" id="sp-participants-count">—</div>
+        <div class="sp-participant-label">подключено<br>устройств</div>
+      </div>
+    </div>
+
+    <!-- Reactions summary -->
+    <div class="sp-section">
+      <div class="sp-section-title">💬 РЕАКЦИИ ЗАЛА</div>
+      <div class="reactions-summary">
+        <div class="reaction-summary-item">
+          <div class="reaction-emoji">👍</div>
+          <div class="reaction-count-num">0</div>
+        </div>
+        <div class="reaction-summary-item">
+          <div class="reaction-emoji">🤔</div>
+          <div class="reaction-count-num">0</div>
+        </div>
+        <div class="reaction-summary-item">
+          <div class="reaction-emoji">⚡</div>
+          <div class="reaction-count-num">0</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q&A Inbox -->
+    <div class="sp-section">
+      <div class="sp-section-title">❓ ВОПРОСЫ ОТ УЧАСТНИКОВ</div>
+      <div class="qa-inbox" id="qa-inbox">
+        <div class="qa-empty">Вопросов пока нет</div>
+      </div>
+    </div>
+
+  </div><!-- /speaker-panel -->
+</div><!-- /speaker-layout -->
+
+<!-- TOAST -->
+<div id="toast"></div>
+
+<!-- ═══════ SCRIPTS ═══════ -->
+<script src="js/config.js"></script>
+<script src="js/data.js"></script>
+<script src="js/sync.js"></script>
+<script src="js/speaker.js"></script>
+
+</body>
+</html>
