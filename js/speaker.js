@@ -326,6 +326,48 @@
     });
   });
 
+  // ── Slide editor ──────────────────────────────────────────
+  const editSlideBtn       = document.getElementById('edit-slide-btn');
+  const slideEditorOverlay = document.getElementById('slide-editor-overlay');
+  const slideEditorTA      = document.getElementById('slide-editor-textarea');
+  const slideEditorSync    = document.getElementById('slide-editor-sync');
+  const slideEditorApply   = document.getElementById('slide-editor-apply');
+  const slideEditorCancel  = document.getElementById('slide-editor-cancel');
+
+  function openEditor() {
+    if (!slideEditorTA) return;
+    slideEditorTA.value = slides[currentIdx].html;
+    slideEditorOverlay.style.display = 'flex';
+  }
+
+  function applyEdit(sync) {
+    const newHtml = slideEditorTA.value;
+    slides[currentIdx].html = newHtml;
+    renderPreview(currentIdx);
+    // Rebuild filmstrip title for this slide
+    const filmItem = filmstrip?.querySelectorAll('.filmstrip-item')[currentIdx];
+    if (filmItem) filmItem.querySelector('.filmstrip-title').textContent = getSlideTitle(slides[currentIdx]);
+
+    if (sync) {
+      window.Sync.set('session/slideOverrides/' + currentIdx, newHtml);
+      showEditorToast('Синхронизировано с участниками ✓');
+    }
+    slideEditorOverlay.style.display = 'none';
+  }
+
+  function showEditorToast(msg) {
+    const t = document.getElementById('toast');
+    if (!t) return;
+    t.textContent = msg;
+    t.classList.add('visible');
+    setTimeout(() => t.classList.remove('visible'), 2500);
+  }
+
+  editSlideBtn?.addEventListener('click', openEditor);
+  slideEditorSync?.addEventListener('click', () => applyEdit(true));
+  slideEditorApply?.addEventListener('click', () => applyEdit(false));
+  slideEditorCancel?.addEventListener('click', () => { slideEditorOverlay.style.display = 'none'; });
+
   // ── Bootstrap ─────────────────────────────────────────────
   function init() {
     checkPin();

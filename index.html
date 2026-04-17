@@ -25,7 +25,7 @@
   </div>
   <div class="header-title">ИИ × ПРАВИТЕЛЬСТВО НСО · <span id="header-block-name">Открытие</span></div>
   <div class="header-meta">
-    <span class="slide-counter" id="slide-counter">1 / 35</span>
+    <span class="slide-counter" id="slide-counter">1 / 36</span>
     <span class="online-badge">
       <span class="online-dot"></span>
       <span id="online-count">—</span>
@@ -39,6 +39,17 @@
 <!-- ═══════ SLIDES ═══════ -->
 <div id="slide-container">
   <!-- Slides injected by participant.js -->
+</div>
+
+<!-- ═══════ MOBILE ACTIONS BAR ═══════ -->
+<div id="mob-actions">
+  <button class="mob-btn reaction-btn" data-reaction="👍" title="Понял">👍<span>Понял</span></button>
+  <button class="mob-btn reaction-btn" data-reaction="🤔" title="Не понял">🤔<span>Вопрос</span></button>
+  <button class="mob-btn reaction-btn" data-reaction="⚡" title="Интересно">⚡<span>Огонь</span></button>
+  <div class="mob-sep"></div>
+  <button class="mob-btn" id="mob-qa">❓<span>Спросить</span></button>
+  <button class="mob-btn" id="mob-builder">⚗️<span>Промпт</span></button>
+  <button class="mob-btn" id="mob-notepad">📝<span>Заметки</span></button>
 </div>
 
 <!-- ═══════ BOTTOM BAR ═══════ -->
@@ -57,7 +68,7 @@
   <div style="display:flex;gap:6px;align-items:center;flex-shrink:0">
     <div class="bottom-ai-links">
       <a href="https://chat.qwen.ai"    target="_blank" class="ai-chip">Qwen</a>
-      <a href="https://gigachat.ru"     target="_blank" class="ai-chip gigachat">GigaChat</a>
+      <a href="https://giga.chat"        target="_blank" class="ai-chip gigachat">GigaChat</a>
       <a href="https://chat.deepseek.com" target="_blank" class="ai-chip">DeepSeek</a>
       <a href="https://perplexity.ai"   target="_blank" class="ai-chip">Perplexity</a>
     </div>
@@ -70,7 +81,10 @@
 
 <!-- ═══════ TASK PANEL ═══════ -->
 <div id="task-panel">
-  <button id="task-close" aria-label="Закрыть задание">✕</button>
+  <div class="task-panel-top">
+    <span class="task-panel-label">📋 Задание</span>
+    <button id="task-close" aria-label="Закрыть задание">✕</button>
+  </div>
   <div id="task-content">
     <!-- Injected by JS when speaker opens task -->
   </div>

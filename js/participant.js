@@ -95,6 +95,19 @@
       demoOverlay.classList.toggle('active', val === true);
     });
 
+    // Slide content overrides from speaker editor
+    window.Sync.on('session/slideOverrides', (overrides) => {
+      if (!overrides) return;
+      Object.entries(overrides).forEach(([idxStr, html]) => {
+        const i = parseInt(idxStr, 10);
+        if (i >= 0 && i < slides.length && html) {
+          slides[i].html = html;
+          const el = document.getElementById('slide-' + i);
+          if (el) el.innerHTML = html;
+        }
+      });
+    });
+
     // Local mode fallback
     if (window.LOCAL_MODE) {
       window.addEventListener('sync:session:currentSlide', (e) => showSlide(e.detail));
@@ -328,6 +341,19 @@
 
     // Notepad
     notepadFab?.addEventListener('click', () => {
+      notepadPanel?.classList.toggle('open');
+      builderPanel?.classList.remove('open');
+    });
+
+    // ── Mobile action bar ──────────────────────────────────
+    document.getElementById('mob-qa')?.addEventListener('click', () => {
+      qaPanel?.classList.toggle('open');
+    });
+    document.getElementById('mob-builder')?.addEventListener('click', () => {
+      builderPanel?.classList.toggle('open');
+      notepadPanel?.classList.remove('open');
+    });
+    document.getElementById('mob-notepad')?.addEventListener('click', () => {
       notepadPanel?.classList.toggle('open');
       builderPanel?.classList.remove('open');
     });

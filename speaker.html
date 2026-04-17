@@ -70,8 +70,22 @@
 
   <!-- CENTER: Preview + nav -->
   <div id="speaker-center">
-    <div id="preview-container">
+    <div id="preview-container" style="position:relative">
       <!-- Slide preview rendered here -->
+      <button id="edit-slide-btn" title="Редактировать содержимое слайда">✏️ Редактировать</button>
+      <!-- Slide editor overlay (hidden by default) -->
+      <div id="slide-editor-overlay" style="display:none">
+        <div class="slide-editor-header">
+          <span class="slide-editor-title">✏️ Редактирование слайда</span>
+          <div class="slide-editor-actions">
+            <button class="slide-editor-btn primary" id="slide-editor-sync">📡 Синхронизировать участникам</button>
+            <button class="slide-editor-btn secondary" id="slide-editor-apply">✓ Применить локально</button>
+            <button class="slide-editor-btn secondary" id="slide-editor-cancel">✕ Отмена</button>
+          </div>
+        </div>
+        <div class="slide-editor-note">Редактируйте HTML-содержимое слайда. «Синхронизировать» — участники увидят изменения. «Применить локально» — только у вас.</div>
+        <textarea id="slide-editor-textarea" spellcheck="false"></textarea>
+      </div>
     </div>
     <div class="speaker-nav-bar">
       <button class="sp-nav-btn" id="sp-prev" disabled>◀</button>
