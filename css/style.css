@@ -378,8 +378,8 @@ table { border-collapse: collapse; width: 100%; }
   background: rgba(37,47,61,0.97);
   backdrop-filter: blur(16px);
   border-top: 2px solid var(--green);
-  transform: translateY(100%); transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
-  max-height: 50vh;
+  transform: translateY(calc(100% + 4px)); transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+  max-height: 50vh; min-height: 110px;
   display: flex; flex-direction: column;
 }
 #task-panel.open { transform: translateY(0); }
@@ -778,8 +778,8 @@ body.speaker-mode .slide.active { display: flex; }
   .bottom-block-info { max-width: 100px; }
   .block-name { max-width: 80px; }
 
-  /* Task panel */
-  #task-panel { max-height: 55vh; }
+  /* Task panel: above mob-actions (46px) + bottom bar (60px) */
+  #task-panel { bottom: 106px; max-height: 50vh; }
 
   /* Panels full-width */
   #qa-panel { width: calc(100vw - 32px); right: 16px; bottom: 160px; }
