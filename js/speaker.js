@@ -93,6 +93,9 @@
   // ── Navigate ──────────────────────────────────────────────
   function goToSlide(idx) {
     if (idx < 0 || idx >= slides.length) return;
+    // Close editor without saving if open
+    const editEl = getEditableSlide?.();
+    if (editEl && editEl.contentEditable === 'true') closeEditor(false, false);
     currentIdx = idx;
 
     // Update filmstrip
@@ -326,33 +329,53 @@
     });
   });
 
-  // ── Slide editor ──────────────────────────────────────────
-  const editSlideBtn       = document.getElementById('edit-slide-btn');
-  const slideEditorOverlay = document.getElementById('slide-editor-overlay');
-  const slideEditorTA      = document.getElementById('slide-editor-textarea');
-  const slideEditorSync    = document.getElementById('slide-editor-sync');
-  const slideEditorApply   = document.getElementById('slide-editor-apply');
-  const slideEditorCancel  = document.getElementById('slide-editor-cancel');
+  // ── Slide editor (contenteditable) ───────────────────────
+  const editSlideBtn     = document.getElementById('edit-slide-btn');
+  const editToolbar      = document.getElementById('edit-toolbar');
+  const slideEditorSync  = document.getElementById('slide-editor-sync');
+  const slideEditorApply = document.getElementById('slide-editor-apply');
+  const slideEditorCancel= document.getElementById('slide-editor-cancel');
+  let editOriginalHtml   = '';
 
-  function openEditor() {
-    if (!slideEditorTA) return;
-    slideEditorTA.value = slides[currentIdx].html;
-    slideEditorOverlay.style.display = 'flex';
+  function getEditableSlide() {
+    return previewContainer?.querySelector('.slide');
   }
 
-  function applyEdit(sync) {
-    const newHtml = slideEditorTA.value;
-    slides[currentIdx].html = newHtml;
-    renderPreview(currentIdx);
-    // Rebuild filmstrip title for this slide
-    const filmItem = filmstrip?.querySelectorAll('.filmstrip-item')[currentIdx];
-    if (filmItem) filmItem.querySelector('.filmstrip-title').textContent = getSlideTitle(slides[currentIdx]);
+  function openEditor() {
+    const el = getEditableSlide();
+    if (!el) return;
+    editOriginalHtml = el.innerHTML;
+    el.contentEditable = 'true';
+    el.focus();
+    if (editToolbar) editToolbar.style.display = 'flex';
+    if (editSlideBtn) editSlideBtn.style.display = 'none';
+  }
 
-    if (sync) {
-      window.Sync.set('session/slideOverrides/' + currentIdx, newHtml);
-      showEditorToast('Синхронизировано с участниками ✓');
+  function closeEditor(save, sync) {
+    const el = getEditableSlide();
+    if (!el) return;
+
+    if (save) {
+      const newHtml = el.innerHTML;
+      el.contentEditable = 'false';
+      slides[currentIdx].html = newHtml;
+      // Update filmstrip label
+      const filmItem = filmstrip?.querySelectorAll('.filmstrip-item')[currentIdx];
+      if (filmItem) filmItem.querySelector('.filmstrip-title').textContent = getSlideTitle(slides[currentIdx]);
+      if (sync) {
+        window.Sync.set('session/slideOverrides/' + currentIdx, newHtml);
+        showEditorToast('Синхронизировано ✓');
+      } else {
+        showEditorToast('Изменения применены ✓');
+      }
+    } else {
+      // Discard
+      el.innerHTML = editOriginalHtml;
+      el.contentEditable = 'false';
     }
-    slideEditorOverlay.style.display = 'none';
+
+    if (editToolbar) editToolbar.style.display = 'none';
+    if (editSlideBtn) editSlideBtn.style.display = '';
   }
 
   function showEditorToast(msg) {
@@ -364,9 +387,9 @@
   }
 
   editSlideBtn?.addEventListener('click', openEditor);
-  slideEditorSync?.addEventListener('click', () => applyEdit(true));
-  slideEditorApply?.addEventListener('click', () => applyEdit(false));
-  slideEditorCancel?.addEventListener('click', () => { slideEditorOverlay.style.display = 'none'; });
+  slideEditorSync?.addEventListener('click', () => closeEditor(true, true));
+  slideEditorApply?.addEventListener('click', () => closeEditor(true, false));
+  slideEditorCancel?.addEventListener('click', () => closeEditor(false, false));
 
   // ── Bootstrap ─────────────────────────────────────────────
   function init() {
