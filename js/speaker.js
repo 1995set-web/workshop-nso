@@ -82,7 +82,9 @@
   // ── Render slide preview ──────────────────────────────────
   function renderPreview(idx) {
     if (!previewContainer) return;
-    previewContainer.innerHTML = '';
+    // Remove only the slide — preserve button and toolbar
+    const old = previewContainer.querySelector('.slide');
+    if (old) old.remove();
     const slideEl = document.createElement('div');
     slideEl.className = 'slide active';
     slideEl.style.cssText = 'position:relative;transform:none;font-size:0.68em;';
