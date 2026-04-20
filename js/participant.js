@@ -6,6 +6,8 @@
   const slides = window.SLIDES;
   let currentIdx = 0;
   let showTaskOpen = false;
+  let taskAvailable = false;
+  let userDismissedTask = false;
   let copyDropdownOpen = false;
 
   // ── DOM refs ──────────────────────────────────────────────
@@ -79,6 +81,20 @@
     copyBtn.style.display = hasCopy ? 'flex' : 'none';
     copyBtn.classList.remove('copied');
     copyBtn.querySelector('.copy-btn-text').textContent = '📋 Скопировать промпт';
+
+    // Task availability — reset dismissed state on slide change
+    userDismissedTask = false;
+    taskAvailable = !!(slide.taskHtml);
+    if (!taskAvailable && showTaskOpen) {
+      taskPanel.classList.remove('open');
+      showTaskOpen = false;
+    }
+    const restoreBtn = document.getElementById('task-restore-btn');
+    if (restoreBtn) restoreBtn.style.display = 'none';
+
+    // Artifacts per slide
+    const arts = slide.artifacts || [];
+    buildArtifacts(arts);
   }
 
   // ── Sync ──────────────────────────────────────────────────
@@ -89,7 +105,7 @@
     });
     window.Sync.on('session/showTask', (val) => {
       const open = val === true;
-      if (open !== showTaskOpen) toggleTask(open);
+      if (open !== showTaskOpen) toggleTask(open, true);
     });
     window.Sync.on('session/demoMode', (val) => {
       demoOverlay.classList.toggle('active', val === true);
@@ -185,9 +201,15 @@
   }
 
   // ── Task panel ────────────────────────────────────────────
-  function toggleTask(open) {
+  function toggleTask(open, fromSync) {
+    // If speaker opens from Firebase but user already dismissed it, don't reopen
+    if (fromSync && userDismissedTask && open) return;
     showTaskOpen = open;
     taskPanel.classList.toggle('open', open);
+    const restoreBtn = document.getElementById('task-restore-btn');
+    if (restoreBtn) {
+      restoreBtn.style.display = (!open && taskAvailable) ? 'inline-flex' : 'none';
+    }
     if (open) {
       const slide = slides[currentIdx];
       if (slide.taskHtml && taskContent) taskContent.innerHTML = slide.taskHtml;
@@ -195,17 +217,35 @@
   }
 
   // ── Artifacts panel ───────────────────────────────────────
-  function buildArtifacts() {
+  function buildArtifacts(artifactKeys) {
     const container = document.getElementById('artifacts-content');
     const tabsEl    = document.getElementById('artifact-tabs');
     if (!container || !tabsEl) return;
 
-    const arts = window.ARTIFACTS;
-    const keys = Object.keys(arts);
+    const mobArts = document.getElementById('mob-artifacts');
+
+    if (!artifactKeys || artifactKeys.length === 0) {
+      if (artifactsBtn) artifactsBtn.style.display = 'none';
+      if (mobArts) mobArts.style.display = 'none';
+      return;
+    }
+
+    const arts = window.ARTIFACTS || {};
+    const keys = artifactKeys.filter(k => arts[k]);
+    if (keys.length === 0) {
+      if (artifactsBtn) artifactsBtn.style.display = 'none';
+      if (mobArts) mobArts.style.display = 'none';
+      return;
+    }
+
+    if (artifactsBtn) artifactsBtn.style.display = '';
+    if (mobArts) mobArts.style.display = '';
+
     let activeKey = keys[0];
 
     function renderArtifact(key) {
       const art = arts[key];
+      if (!art) return;
       container.innerHTML = `<div class="artifact-content">` +
         art.sections.map(s => `
           <div class="artifact-section">
@@ -217,7 +257,7 @@
     }
 
     tabsEl.innerHTML = keys.map(k => `
-      <button class="artifact-tab ${k === activeKey ? 'active' : ''}" data-key="${k}">Артефакт ${k}</button>
+      <button class="artifact-tab ${k === activeKey ? 'active' : ''}" data-key="${k}">${arts[k].tabLabel || 'Артефакт ' + k}</button>
     `).join('');
 
     tabsEl.querySelectorAll('.artifact-tab').forEach(btn => {
@@ -309,7 +349,16 @@
     copyDropdown?.addEventListener('click', (e) => e.stopPropagation());
 
     // Task close
-    taskClose?.addEventListener('click', () => toggleTask(false));
+    taskClose?.addEventListener('click', () => {
+      userDismissedTask = true;
+      toggleTask(false);
+    });
+
+    // Task restore
+    document.getElementById('task-restore-btn')?.addEventListener('click', () => {
+      userDismissedTask = false;
+      toggleTask(true);
+    });
 
     // Artifacts
     artifactsBtn?.addEventListener('click', () => {
@@ -345,6 +394,11 @@
       builderPanel?.classList.remove('open');
     });
 
+    // Notepad close button
+    document.getElementById('notepad-close')?.addEventListener('click', () => {
+      notepadPanel?.classList.remove('open');
+    });
+
     // ── Mobile action bar ──────────────────────────────────
     document.getElementById('mob-qa')?.addEventListener('click', () => {
       qaPanel?.classList.toggle('open');
@@ -356,6 +410,12 @@
     document.getElementById('mob-notepad')?.addEventListener('click', () => {
       notepadPanel?.classList.toggle('open');
       builderPanel?.classList.remove('open');
+    });
+    document.getElementById('mob-ai')?.addEventListener('click', () => {
+      document.getElementById('mob-ai-panel')?.classList.toggle('open');
+    });
+    document.getElementById('mob-artifacts')?.addEventListener('click', () => {
+      artifactsPanel?.classList.toggle('open');
     });
 
     // Reactions
@@ -406,7 +466,6 @@
   function init() {
     buildSlides();
     showSlide(0);
-    buildArtifacts();
     setupBuilder();
     setupNotepad();
     setupListeners();

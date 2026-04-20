@@ -75,11 +75,28 @@
       <button id="edit-slide-btn" title="Редактировать слайд">✏️ Редактировать</button>
       <!-- Edit toolbar (shown when editing) -->
       <div id="edit-toolbar" style="display:none">
-        <span class="edit-toolbar-label">✏️ Кликните на любой текст и редактируйте</span>
-        <div class="edit-toolbar-actions">
-          <button class="slide-editor-btn primary" id="slide-editor-sync">📡 Синхронизировать всем</button>
-          <button class="slide-editor-btn secondary" id="slide-editor-apply">✓ Готово</button>
-          <button class="slide-editor-btn secondary" id="slide-editor-cancel">✕ Отмена</button>
+        <div class="edit-toolbar-main">
+          <span class="edit-toolbar-label">✏️ Выделите текст и форматируйте</span>
+          <div class="edit-format-btns">
+            <button class="fmt-btn" id="fmt-bold" title="Жирный (Ctrl+B)"><b>B</b></button>
+            <button class="fmt-btn" id="fmt-italic" title="Курсив (Ctrl+I)"><i>I</i></button>
+            <button class="fmt-btn" id="fmt-underline" title="Подчёркнутый (Ctrl+U)"><u>U</u></button>
+            <button class="fmt-btn" id="fmt-strike" title="Зачёркнутый"><s>S</s></button>
+            <div class="fmt-sep"></div>
+            <button class="fmt-btn" id="fmt-link" title="Вставить гиперссылку">🔗</button>
+            <button class="fmt-btn" id="fmt-unlink" title="Удалить ссылку">✂</button>
+          </div>
+          <div class="edit-toolbar-actions">
+            <button class="slide-editor-btn primary" id="slide-editor-sync">📡 Синхронизировать всем</button>
+            <button class="slide-editor-btn secondary" id="slide-editor-apply">✓ Готово</button>
+            <button class="slide-editor-btn secondary" id="slide-editor-cancel">✕ Отмена</button>
+          </div>
+        </div>
+        <div class="edit-link-row" id="edit-link-row" style="display:none">
+          <span class="edit-link-label">🔗 URL:</span>
+          <input type="url" id="link-url-input" placeholder="https://" spellcheck="false" />
+          <button class="slide-editor-btn primary" id="link-confirm">Вставить</button>
+          <button class="slide-editor-btn secondary" id="link-cancel">Отмена</button>
         </div>
       </div>
     </div>

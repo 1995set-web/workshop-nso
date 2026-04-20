@@ -41,6 +41,15 @@
   <!-- Slides injected by participant.js -->
 </div>
 
+<!-- ═══════ MOBILE AI PANEL ═══════ -->
+<div id="mob-ai-panel">
+  <a href="https://chat.qwen.ai" target="_blank" class="mob-ai-link">🔵 Qwen</a>
+  <a href="https://giga.chat" target="_blank" class="mob-ai-link">🟢 GigaChat</a>
+  <a href="https://chat.deepseek.com" target="_blank" class="mob-ai-link">🔷 DeepSeek</a>
+  <a href="https://perplexity.ai" target="_blank" class="mob-ai-link">🟣 Perplexity</a>
+  <a href="https://gamma.app" target="_blank" class="mob-ai-link">✨ Gamma</a>
+</div>
+
 <!-- ═══════ MOBILE ACTIONS BAR ═══════ -->
 <div id="mob-actions">
   <button class="mob-btn reaction-btn" data-reaction="👍" title="Понял">👍<span>Понял</span></button>
@@ -50,6 +59,9 @@
   <button class="mob-btn" id="mob-qa">❓<span>Спросить</span></button>
   <button class="mob-btn" id="mob-builder">⚗️<span>Промпт</span></button>
   <button class="mob-btn" id="mob-notepad">📝<span>Заметки</span></button>
+  <div class="mob-sep"></div>
+  <button class="mob-btn" id="mob-ai">🤖<span>ИИ</span></button>
+  <button class="mob-btn" id="mob-artifacts">📄<span>Артефакты</span></button>
 </div>
 
 <!-- ═══════ BOTTOM BAR ═══════ -->
@@ -63,6 +75,7 @@
     <button id="copy-btn" style="display:none">
       <span class="copy-btn-text">📋 Скопировать промпт</span>
     </button>
+    <button id="task-restore-btn">📋 Задание</button>
   </div>
 
   <div style="display:flex;gap:6px;align-items:center;flex-shrink:0">
@@ -72,7 +85,7 @@
       <a href="https://chat.deepseek.com" target="_blank" class="ai-chip">DeepSeek</a>
       <a href="https://perplexity.ai"   target="_blank" class="ai-chip">Perplexity</a>
     </div>
-    <button id="artifacts-btn">📄 Артефакты</button>
+    <button id="artifacts-btn" style="display:none">📄 Артефакты</button>
   </div>
 </div>
 
@@ -157,6 +170,7 @@
   <div class="notepad-header">
     <div class="notepad-title">📝 Мои заметки</div>
     <button id="notepad-clear">Очистить</button>
+    <button id="notepad-close">✕</button>
   </div>
   <textarea id="notepad-textarea" placeholder="Пишите здесь во время воркшопа...&#10;Заметки сохраняются автоматически."></textarea>
 </div>

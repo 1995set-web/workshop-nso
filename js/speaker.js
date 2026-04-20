@@ -306,7 +306,9 @@
   // ── Keyboard ──────────────────────────────────────────────
   function setupKeyboard() {
     document.addEventListener('keydown', (e) => {
+      // Skip hotkeys when typing in any form element or contentEditable (slide editor)
       if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.tagName === 'SELECT') return;
+      if (e.target.isContentEditable) return;
       if (e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); goToSlide(currentIdx + 1); }
       if (e.key === 'ArrowLeft')  { e.preventDefault(); goToSlide(currentIdx - 1); }
       if (e.key === 't' || e.key === 'т') toggleTask?.click();
@@ -337,7 +339,10 @@
   const slideEditorSync  = document.getElementById('slide-editor-sync');
   const slideEditorApply = document.getElementById('slide-editor-apply');
   const slideEditorCancel= document.getElementById('slide-editor-cancel');
+  const editLinkRow      = document.getElementById('edit-link-row');
+  const linkUrlInput     = document.getElementById('link-url-input');
   let editOriginalHtml   = '';
+  let savedRange         = null;  // saved selection for link insertion
 
   function getEditableSlide() {
     return previewContainer?.querySelector('.slide');
@@ -351,13 +356,20 @@
     el.focus();
     if (editToolbar) editToolbar.style.display = 'flex';
     if (editSlideBtn) editSlideBtn.style.display = 'none';
+    hideLinkRow();
   }
 
   function closeEditor(save, sync) {
     const el = getEditableSlide();
     if (!el) return;
+    hideLinkRow();
 
     if (save) {
+      // Ensure links open in new tab
+      el.querySelectorAll('a[href]').forEach(a => {
+        if (!a.target) a.target = '_blank';
+        if (!a.rel) a.rel = 'noopener';
+      });
       const newHtml = el.innerHTML;
       el.contentEditable = 'false';
       slides[currentIdx].html = newHtml;
@@ -387,6 +399,118 @@
     t.classList.add('visible');
     setTimeout(() => t.classList.remove('visible'), 2500);
   }
+
+  // ── Rich text formatting ──────────────────────────────────
+
+  // Save current selection so we can restore it after link input gets focus
+  function saveCurrentSelection() {
+    const sel = window.getSelection();
+    if (sel && sel.rangeCount > 0) {
+      savedRange = sel.getRangeAt(0).cloneRange();
+    } else {
+      savedRange = null;
+    }
+  }
+
+  function restoreSavedSelection() {
+    if (!savedRange) return;
+    const sel = window.getSelection();
+    sel.removeAllRanges();
+    sel.addRange(savedRange);
+  }
+
+  function execFormat(cmd) {
+    const el = getEditableSlide();
+    if (!el || el.contentEditable !== 'true') return;
+    document.execCommand(cmd, false, null);
+    el.focus();
+  }
+
+  // Use mousedown (not click) so the selection isn't lost before the handler runs
+  document.getElementById('fmt-bold')?.addEventListener('mousedown', (e) => {
+    e.preventDefault();
+    execFormat('bold');
+  });
+  document.getElementById('fmt-italic')?.addEventListener('mousedown', (e) => {
+    e.preventDefault();
+    execFormat('italic');
+  });
+  document.getElementById('fmt-underline')?.addEventListener('mousedown', (e) => {
+    e.preventDefault();
+    execFormat('underline');
+  });
+  document.getElementById('fmt-strike')?.addEventListener('mousedown', (e) => {
+    e.preventDefault();
+    execFormat('strikeThrough');
+  });
+  document.getElementById('fmt-unlink')?.addEventListener('mousedown', (e) => {
+    e.preventDefault();
+    execFormat('unlink');
+  });
+
+  // Link button — save selection, show URL input row
+  document.getElementById('fmt-link')?.addEventListener('mousedown', (e) => {
+    e.preventDefault();
+    saveCurrentSelection();
+    showLinkRow();
+  });
+
+  function showLinkRow() {
+    if (!editLinkRow) return;
+    editLinkRow.style.display = 'flex';
+    const el = getEditableSlide();
+    if (el) el.classList.add('link-row-open');
+    // Pre-fill if selection is already a link
+    const sel = savedRange ? (() => {
+      const tmp = document.createElement('div');
+      tmp.appendChild(savedRange.cloneContents());
+      return tmp.querySelector('a')?.href || '';
+    })() : '';
+    if (linkUrlInput) {
+      linkUrlInput.value = sel;
+      linkUrlInput.focus();
+      linkUrlInput.select();
+    }
+  }
+
+  function hideLinkRow() {
+    if (!editLinkRow) return;
+    editLinkRow.style.display = 'none';
+    const el = getEditableSlide();
+    if (el) el.classList.remove('link-row-open');
+    if (linkUrlInput) linkUrlInput.value = '';
+  }
+
+  document.getElementById('link-confirm')?.addEventListener('click', applyLink);
+
+  linkUrlInput?.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') { e.preventDefault(); applyLink(); }
+    if (e.key === 'Escape') { hideLinkRow(); restoreSavedSelection(); getEditableSlide()?.focus(); }
+  });
+
+  function applyLink() {
+    const url = linkUrlInput?.value.trim();
+    restoreSavedSelection();
+    if (url) {
+      document.execCommand('createLink', false, url);
+      // Set target="_blank" on newly created links
+      const el = getEditableSlide();
+      if (el) {
+        el.querySelectorAll('a[href]').forEach(a => {
+          a.target = '_blank';
+          a.rel = 'noopener';
+        });
+      }
+    }
+    hideLinkRow();
+    getEditableSlide()?.focus();
+  }
+
+  document.getElementById('link-cancel')?.addEventListener('click', () => {
+    hideLinkRow();
+    restoreSavedSelection();
+    getEditableSlide()?.focus();
+  });
 
   editSlideBtn?.addEventListener('click', openEditor);
   slideEditorSync?.addEventListener('click', () => closeEditor(true, true));
