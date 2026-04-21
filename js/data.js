@@ -1354,57 +1354,6 @@ window.ARTIFACTS = {
   }
 };
 
-// ─────────── АКТУАЛЬНЫЕ ИИ-ИНСТРУМЕНТЫ ПО СЛАЙДАМ ───────────
-window.AI_TOOLS = {
-  qwen:       { key: 'qwen',       name: 'Qwen',       icon: '🔵', url: 'https://chat.qwen.ai',     title: 'Универсальный чат и работа с текстами' },
-  gigachat:   { key: 'gigachat',   name: 'GigaChat',   icon: '🟢', url: 'https://giga.chat',        title: 'Российский ИИ-ассистент, удобен для базовых рабочих задач' },
-  deepseek:   { key: 'deepseek',   name: 'DeepSeek',   icon: '🔷', url: 'https://chat.deepseek.com', title: 'Сильное рассуждение и черновики сложных документов' },
-  kimi:       { key: 'kimi',       name: 'Kimi',       icon: '📎', url: 'https://www.kimi.com',      title: 'Длинные документы и большие контексты' },
-  yandexgpt:  { key: 'yandexgpt',  name: 'YandexGPT',  icon: '🟡', url: 'https://ya.ru/ai/gpt',      title: 'Русскоязычный ассистент Яндекса' },
-  perplexity: { key: 'perplexity', name: 'Perplexity', icon: '🟣', url: 'https://perplexity.ai',     title: 'Поиск, ответы и ссылки на источники' },
-  notebooklm: { key: 'notebooklm', name: 'NotebookLM', icon: '📚', url: 'https://notebooklm.google.com', title: 'Исследование собственных источников и документов' },
-  gamma:      { key: 'gamma',      name: 'Gamma',      icon: '✨', url: 'https://gamma.app',         title: 'Презентации и документы из текста' },
-  replit:     { key: 'replit',     name: 'Replit',     icon: '⚡', url: 'https://replit.com',        title: 'Прототипы сайтов и приложений через AI Agent' },
-  lovable:    { key: 'lovable',    name: 'Lovable',    icon: '🧩', url: 'https://lovable.dev',       title: 'Веб-прототипы и приложения из описания' },
-  sokrat:     { key: 'sokrat',     name: 'Сократ',     icon: '🎙', url: 'https://sokrat.ru',         title: 'Расшифровка встреч и протоколы' },
-  salute:     { key: 'salute',     name: 'SaluteBot',  icon: '💬', url: 'https://t.me/smartspeech_sber_bot', title: 'Telegram-бот для расшифровки речи' },
-};
-
-window.DEFAULT_TOOLS = [
-  window.AI_TOOLS.qwen,
-  window.AI_TOOLS.gigachat,
-  window.AI_TOOLS.deepseek,
-  window.AI_TOOLS.perplexity,
-];
-
-window.BLOCK_TOOLS = {
-  0: [window.AI_TOOLS.qwen, window.AI_TOOLS.gigachat, window.AI_TOOLS.perplexity],
-  1: [window.AI_TOOLS.qwen, window.AI_TOOLS.gigachat, window.AI_TOOLS.yandexgpt],
-  2: [window.AI_TOOLS.qwen, window.AI_TOOLS.gigachat, window.AI_TOOLS.deepseek, window.AI_TOOLS.perplexity, window.AI_TOOLS.gamma, window.AI_TOOLS.replit],
-  3: [window.AI_TOOLS.qwen, window.AI_TOOLS.gigachat, window.AI_TOOLS.deepseek, window.AI_TOOLS.kimi],
-  4: [window.AI_TOOLS.gigachat, window.AI_TOOLS.kimi, window.AI_TOOLS.notebooklm, window.AI_TOOLS.deepseek],
-  5: [window.AI_TOOLS.perplexity, window.AI_TOOLS.gamma, window.AI_TOOLS.replit, window.AI_TOOLS.lovable],
-  6: [window.AI_TOOLS.qwen, window.AI_TOOLS.gigachat, window.AI_TOOLS.sokrat, window.AI_TOOLS.salute],
-  7: [window.AI_TOOLS.qwen, window.AI_TOOLS.gigachat, window.AI_TOOLS.sokrat, window.AI_TOOLS.salute],
-};
-
-window.SLIDE_TOOLS = {
-  9:  [window.AI_TOOLS.qwen, window.AI_TOOLS.gigachat, window.AI_TOOLS.deepseek, window.AI_TOOLS.kimi, window.AI_TOOLS.perplexity, window.AI_TOOLS.gamma, window.AI_TOOLS.replit, window.AI_TOOLS.lovable],
-  16: [window.AI_TOOLS.qwen, window.AI_TOOLS.gigachat, window.AI_TOOLS.deepseek],
-  17: [window.AI_TOOLS.qwen, window.AI_TOOLS.deepseek, window.AI_TOOLS.gigachat],
-  20: [window.AI_TOOLS.gigachat, window.AI_TOOLS.kimi, window.AI_TOOLS.notebooklm],
-  21: [window.AI_TOOLS.gigachat, window.AI_TOOLS.kimi, window.AI_TOOLS.notebooklm, window.AI_TOOLS.deepseek],
-  22: [window.AI_TOOLS.qwen, window.AI_TOOLS.gigachat, window.AI_TOOLS.deepseek, window.AI_TOOLS.perplexity, window.AI_TOOLS.gamma, window.AI_TOOLS.replit],
-  24: [window.AI_TOOLS.perplexity, window.AI_TOOLS.kimi, window.AI_TOOLS.notebooklm],
-  25: [window.AI_TOOLS.gamma, window.AI_TOOLS.qwen, window.AI_TOOLS.perplexity],
-  26: [window.AI_TOOLS.replit, window.AI_TOOLS.lovable, window.AI_TOOLS.qwen],
-  27: [window.AI_TOOLS.perplexity, window.AI_TOOLS.qwen, window.AI_TOOLS.gamma, window.AI_TOOLS.replit],
-  30: [window.AI_TOOLS.sokrat, window.AI_TOOLS.salute, window.AI_TOOLS.qwen, window.AI_TOOLS.gigachat],
-  31: [window.AI_TOOLS.sokrat, window.AI_TOOLS.salute, window.AI_TOOLS.gigachat, window.AI_TOOLS.qwen],
-  33: [window.AI_TOOLS.qwen, window.AI_TOOLS.gigachat, window.AI_TOOLS.perplexity, window.AI_TOOLS.gamma, window.AI_TOOLS.replit],
-  36: [window.AI_TOOLS.qwen, window.AI_TOOLS.gigachat, window.AI_TOOLS.perplexity, window.AI_TOOLS.gamma, window.AI_TOOLS.replit],
-};
-
 // ─────────── БЛОКИ (для таймера) ───────────
 window.BLOCKS = [
   { id: 0, name: 'Открытие', duration: 5, startSlide: 1 },
