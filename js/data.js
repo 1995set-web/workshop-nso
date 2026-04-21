@@ -773,11 +773,11 @@ window.SLIDES = [
       <div class="demo-badge">ПРАКТИКА 3 · 17 минут</div>
       <h2 class="s-heading">ВЫБЕРИТЕ ЗАДАНИЕ</h2>
       <div class="s-practice-cards s-practice-cards-5">
-        <div class="practice-card"><div class="practice-letter">А</div><div class="practice-title">Сравнение региональных стратегий</div><div class="practice-desc">Перед стратегической сессией НСО. Сравнить Татарстан, Тюменскую и Нижегородскую области — как привлекают инвестиции. Использовать Perplexity.</div></div>
-        <div class="practice-card"><div class="practice-letter">Б</div><div class="practice-title">Сценарное моделирование</div><div class="practice-desc">НСО рассматривает 6 млрд руб. гарантий для «Академгородок 2.0». Три сценария: оптимистичный, базовый, пессимистичный.</div></div>
-        <div class="practice-card"><div class="practice-letter">В</div><div class="practice-title">Оценка технологических трендов</div><div class="practice-desc">Минцифры НСО готовит доклад «ИИ для регионального управления» для Комиссии при Президенте. Топ-5 технологий.</div></div>
-        <div class="practice-card"><div class="practice-letter">Г</div><div class="practice-title">Создать презентацию</div><div class="practice-desc">Собрать структуру и текст презентации для совещания: 6–8 слайдов, деловой стиль, акцент на решениях и цифрах. Использовать Gamma.</div></div>
-        <div class="practice-card"><div class="practice-letter">Е</div><div class="practice-title">Навигатор господдержки</div><div class="practice-desc">Сервис для жителей НСО: подобрать все меры поддержки, открыть условия и пройти шаги до подачи заявки через Госуслуги, МФЦ или ведомство.</div></div>
+        <div class="practice-card"><div class="practice-letter">А</div><div class="practice-title">Сравнение региональных стратегий</div><div class="practice-desc">Перед стратегической сессией НСО. Сравнить Татарстан, Тюменскую и Нижегородскую области — как привлекают инвестиции.</div><div class="practice-tools"><a href="https://perplexity.ai" target="_blank">Perplexity</a><a href="https://chat.qwen.ai" target="_blank">Qwen</a></div></div>
+        <div class="practice-card"><div class="practice-letter">Б</div><div class="practice-title">Сценарное моделирование</div><div class="practice-desc">НСО рассматривает 6 млрд руб. гарантий для «Академгородок 2.0». Три сценария: оптимистичный, базовый, пессимистичный.</div><div class="practice-tools"><a href="https://chat.qwen.ai" target="_blank">Qwen</a><a href="https://chat.deepseek.com" target="_blank">DeepSeek</a></div></div>
+        <div class="practice-card"><div class="practice-letter">В</div><div class="practice-title">Оценка технологических трендов</div><div class="practice-desc">Минцифры НСО готовит доклад «ИИ для регионального управления» для Комиссии при Президенте. Топ-5 технологий.</div><div class="practice-tools"><a href="https://perplexity.ai" target="_blank">Perplexity</a><a href="https://www.kimi.com" target="_blank">Kimi</a></div></div>
+        <div class="practice-card"><div class="practice-letter">Г</div><div class="practice-title">Создать презентацию</div><div class="practice-desc">Собрать структуру и текст презентации для совещания: 6–8 слайдов, деловой стиль, акцент на решениях и цифрах.</div><div class="practice-tools"><a href="https://gamma.app" target="_blank">Gamma</a><a href="https://chat.qwen.ai" target="_blank">Qwen</a></div></div>
+        <div class="practice-card"><div class="practice-letter">Е</div><div class="practice-title">Навигатор господдержки</div><div class="practice-desc">Сервис для жителей НСО: подобрать все меры поддержки, открыть условия и пройти шаги до подачи заявки через Госуслуги, МФЦ или ведомство.</div><div class="practice-tools"><a href="https://replit.com" target="_blank">Replit</a><a href="https://chat.qwen.ai" target="_blank">Qwen</a></div></div>
       </div>
     </div>`,
   speakerNotes: 'Пять вариантов: аналитика, сценарии, технологии ИИ, презентация и сервис господдержки для населения.',
@@ -860,7 +860,7 @@ window.SLIDES = [
   ],
   hasTask: true,
   artifacts: ['P3A', 'P3B', 'P3C', 'P3D', 'P3E'],
-  taskHtml: `<div class="task-panel-inner"><div class="task-header">⏱ ПРАКТИКА 3 · 17 минут</div><p>Выберите один из 5 кейсов: аналитика, сценарии, технологии ИИ, презентация или навигатор господдержки.</p><div class="task-hint">Нажмите «Скопировать промпт» ниже — это <strong>пример для старта</strong>, адаптируйте под свою задачу</div></div>`
+  taskHtml: `<div class="task-panel-inner"><div class="task-header">⏱ ПРАКТИКА 3 · 17 минут</div><p>Выберите один из 5 кейсов. ИИ-инструменты указаны прямо в карточках: поиск, анализ, презентация или прототип.</p><div class="task-hint">Нажмите «Скопировать промпт» ниже — это <strong>пример для старта</strong>, адаптируйте под свою задачу</div></div>`
 },
 
 // ─────────── БЛОК 6 ───────────

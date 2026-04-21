@@ -255,6 +255,9 @@ table { border-collapse: collapse; width: 100%; }
 .practice-letter { font-size: 28px; font-weight: 900; background: var(--grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 6px; }
 .practice-title { font-size: 14px; font-weight: 700; color: var(--white); margin-bottom: 6px; }
 .practice-desc { font-size: 12px; color: var(--gray-dim); line-height: 1.5; }
+.practice-tools { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 10px; }
+.practice-tools a { color: var(--green); border: 1px solid rgba(68,235,153,0.22); background: rgba(68,235,153,0.07); border-radius: 6px; padding: 4px 7px; font-size: 10px; font-weight: 800; }
+.practice-tools a:hover { background: rgba(68,235,153,0.14); }
 .practice-instruction { font-size: 13px; color: var(--gray); text-align: center; padding: 10px; background: rgba(134,27,227,0.1); border-radius: 8px; }
 
 /* ── SECRETS GRID ── */
@@ -846,6 +849,8 @@ body.speaker-mode .slide.active { display: flex; }
   .s-practice-cards-5 .practice-letter { font-size: 18px; margin-bottom: 2px; }
   .s-practice-cards-5 .practice-title { font-size: 12px; margin-bottom: 3px; }
   .s-practice-cards-5 .practice-desc { font-size: 10px; line-height: 1.3; }
+  .s-practice-cards-5 .practice-tools { margin-top: 5px; gap: 4px; }
+  .s-practice-cards-5 .practice-tools a { padding: 3px 6px; font-size: 9px; }
   .s-practice-cards-6 { grid-template-columns: 1fr 1fr; gap: 8px; }
   .s-practice-cards-6 .practice-card { padding: 10px; }
   .s-practice-cards-6 .practice-letter { font-size: 20px; margin-bottom: 3px; }
