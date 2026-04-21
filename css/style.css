@@ -248,6 +248,7 @@ table { border-collapse: collapse; width: 100%; }
 /* ── PRACTICE CARDS ── */
 .s-practice-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-bottom: 14px; }
 .s-practice-cards-4 { grid-template-columns: repeat(4, 1fr); }
+.s-practice-cards-5 { grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 10px; }
 .s-practice-cards-6 { grid-template-columns: repeat(3, 1fr); gap: 12px; }
 .practice-card { background: var(--dark2); border-radius: var(--radius); padding: 16px; border: 1px solid rgba(255,255,255,0.08); cursor: pointer; transition: border-color 0.2s, background 0.2s; }
 .practice-card:hover { border-color: var(--purple); background: rgba(134,27,227,0.08); }
@@ -840,6 +841,11 @@ body.speaker-mode .slide.active { display: flex; }
   .s-secrets-grid { grid-template-columns: 1fr 1fr; }
   .s-practice-cards { grid-template-columns: 1fr; }
   .s-practice-cards-4 { grid-template-columns: 1fr 1fr; }
+  .s-practice-cards-5 { grid-template-columns: 1fr; gap: 8px; }
+  .s-practice-cards-5 .practice-card { padding: 9px 10px; }
+  .s-practice-cards-5 .practice-letter { font-size: 18px; margin-bottom: 2px; }
+  .s-practice-cards-5 .practice-title { font-size: 12px; margin-bottom: 3px; }
+  .s-practice-cards-5 .practice-desc { font-size: 10px; line-height: 1.3; }
   .s-practice-cards-6 { grid-template-columns: 1fr 1fr; gap: 8px; }
   .s-practice-cards-6 .practice-card { padding: 10px; }
   .s-practice-cards-6 .practice-letter { font-size: 20px; margin-bottom: 3px; }
