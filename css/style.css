@@ -248,6 +248,7 @@ table { border-collapse: collapse; width: 100%; }
 /* ── PRACTICE CARDS ── */
 .s-practice-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-bottom: 14px; }
 .s-practice-cards-4 { grid-template-columns: repeat(4, 1fr); }
+.s-practice-cards-6 { grid-template-columns: repeat(3, 1fr); gap: 12px; }
 .practice-card { background: var(--dark2); border-radius: var(--radius); padding: 16px; border: 1px solid rgba(255,255,255,0.08); cursor: pointer; transition: border-color 0.2s, background 0.2s; }
 .practice-card:hover { border-color: var(--purple); background: rgba(134,27,227,0.08); }
 .practice-letter { font-size: 28px; font-weight: 900; background: var(--grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 6px; }
@@ -308,6 +309,14 @@ table { border-collapse: collapse; width: 100%; }
 .final-resource { background: var(--dark2); border-radius: var(--radius); padding: 20px 24px; border: 1px solid rgba(255,255,255,0.1); min-width: 220px; }
 .resource-title { font-size: 15px; font-weight: 700; color: var(--white); margin-bottom: 6px; }
 .resource-desc { font-size: 13px; color: var(--gray-dim); }
+.final-survey { display: flex; gap: 18px; justify-content: center; align-items: stretch; margin-bottom: 32px; flex-wrap: wrap; }
+.final-qr-card, .final-contact-card { background: var(--dark2); border-radius: var(--radius); padding: 18px 22px; border: 1px solid rgba(255,255,255,0.1); min-width: 240px; }
+.final-qr-card { display: flex; flex-direction: column; align-items: center; gap: 10px; }
+.final-qr { width: 170px; height: 170px; border-radius: 8px; background: var(--white); padding: 8px; }
+.final-survey-link { color: var(--green); font-size: 15px; font-weight: 800; }
+.final-contact-card { display: flex; flex-direction: column; justify-content: center; text-align: left; gap: 8px; }
+.final-contact-line { color: var(--gray); font-size: 15px; font-weight: 600; }
+.final-contact-line a { color: var(--green); }
 .school21-logo-large { display: flex; align-items: center; gap: 16px; justify-content: center; }
 .logo21-mark { font-size: 56px; font-weight: 900; background: var(--grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; letter-spacing: -4px; }
 .logo21-text { font-size: 14px; font-weight: 700; color: var(--gray); letter-spacing: 3px; text-transform: uppercase; text-align: left; line-height: 1.6; }
@@ -831,6 +840,16 @@ body.speaker-mode .slide.active { display: flex; }
   .s-secrets-grid { grid-template-columns: 1fr 1fr; }
   .s-practice-cards { grid-template-columns: 1fr; }
   .s-practice-cards-4 { grid-template-columns: 1fr 1fr; }
+  .s-practice-cards-6 { grid-template-columns: 1fr 1fr; gap: 8px; }
+  .s-practice-cards-6 .practice-card { padding: 10px; }
+  .s-practice-cards-6 .practice-letter { font-size: 20px; margin-bottom: 3px; }
+  .s-practice-cards-6 .practice-title { font-size: 12px; margin-bottom: 4px; }
+  .s-practice-cards-6 .practice-desc { font-size: 10px; line-height: 1.35; }
+  .final-quote { margin-bottom: 16px; padding: 16px 18px; }
+  .final-survey { gap: 10px; margin-bottom: 18px; }
+  .final-qr-card, .final-contact-card { min-width: 0; width: 100%; padding: 14px 16px; }
+  .final-qr { width: 128px; height: 128px; }
+  .final-contact-card { text-align: center; }
   .s-two-col { grid-template-columns: 1fr; }
   .s-cards-grid { grid-template-columns: 1fr 1fr; }
   .s-matryoshka { overflow-x: auto; }
