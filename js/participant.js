@@ -38,6 +38,8 @@
   const blockName       = document.getElementById('block-name');
   const toast           = document.getElementById('toast');
   const headerBlockName = document.getElementById('header-block-name');
+  const bottomAiLinks   = document.querySelector('.bottom-ai-links');
+  const mobileAiPanel   = document.getElementById('mob-ai-panel');
 
   // ── Build slides in DOM ───────────────────────────────────
   function buildSlides() {
@@ -95,6 +97,9 @@
     // Artifacts per slide
     const arts = slide.artifacts || [];
     buildArtifacts(arts);
+
+    // Relevant AI tools per slide
+    buildSlideTools(slide);
   }
 
   // ── Sync ──────────────────────────────────────────────────
@@ -270,6 +275,42 @@
     });
 
     renderArtifact(activeKey);
+  }
+
+  // ── AI tools per slide ─────────────────────────────────────
+  function getSlideTools(slide) {
+    const bySlide = window.SLIDE_TOOLS || {};
+    const byBlock = window.BLOCK_TOOLS || {};
+    const defaults = window.DEFAULT_TOOLS || [];
+
+    if (slide.tools && slide.tools.length) return slide.tools;
+    if (bySlide[slide.id] && bySlide[slide.id].length) return bySlide[slide.id];
+    if (byBlock[slide.block] && byBlock[slide.block].length) return byBlock[slide.block];
+    return defaults;
+  }
+
+  function toolClass(tool) {
+    return tool.key ? ' tool-' + tool.key : '';
+  }
+
+  function buildSlideTools(slide) {
+    const tools = getSlideTools(slide);
+
+    if (bottomAiLinks) {
+      bottomAiLinks.innerHTML = tools.map(tool => `
+        <a href="${tool.url}" target="_blank" rel="noopener" class="ai-chip${toolClass(tool)}" title="${tool.title || tool.name}">
+          ${tool.name}
+        </a>
+      `).join('');
+    }
+
+    if (mobileAiPanel) {
+      mobileAiPanel.innerHTML = tools.map(tool => `
+        <a href="${tool.url}" target="_blank" rel="noopener" class="mob-ai-link${toolClass(tool)}">
+          <span>${tool.icon || '🤖'}</span> ${tool.name}
+        </a>
+      `).join('');
+    }
   }
 
   // ── Prompt builder ────────────────────────────────────────
