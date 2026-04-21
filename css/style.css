@@ -357,6 +357,58 @@ table { border-collapse: collapse; width: 100%; }
 .ai-chip.tool-gamma:hover { background: rgba(134,27,227,0.25); color: var(--white); border-color: rgba(134,27,227,0.4); }
 .ai-chip.tool-replit:hover,
 .ai-chip.tool-lovable:hover { background: rgba(251,191,36,0.15); color: var(--yellow); border-color: rgba(251,191,36,0.3); }
+
+/* ── VISIBLE PER-SLIDE AI TOOLS ── */
+.slide-tools-inline {
+  position: absolute;
+  left: 24px;
+  right: 24px;
+  bottom: 18px;
+  z-index: 12;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  pointer-events: none;
+}
+.slide-tools-label {
+  color: var(--green);
+  font-size: 10px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+}
+.slide-tools-list {
+  display: flex;
+  gap: 6px;
+  max-width: min(760px, 70vw);
+  overflow-x: auto;
+  scrollbar-width: none;
+  pointer-events: auto;
+}
+.slide-tools-list::-webkit-scrollbar { display: none; }
+.slide-tool-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 7px 11px;
+  border-radius: 8px;
+  border: 1px solid rgba(255,255,255,0.14);
+  background: rgba(29,38,51,0.9);
+  color: var(--white);
+  box-shadow: 0 2px 12px rgba(0,0,0,0.28);
+  backdrop-filter: blur(8px);
+  font-size: 12px;
+  font-weight: 700;
+  white-space: nowrap;
+  transition: background 0.2s, border-color 0.2s, transform 0.1s;
+}
+.slide-tool-chip:hover {
+  background: rgba(134,27,227,0.28);
+  border-color: rgba(134,27,227,0.45);
+}
+.slide-tool-chip:active { transform: scale(0.96); }
 #artifacts-btn {
   background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.1);
   color: var(--gray); padding: 6px 12px; border-radius: 8px;
@@ -845,6 +897,28 @@ body.speaker-mode .slide.active { display: flex; }
   .s-schedule { overflow-x: auto; }
   .sched-item { gap: 8px; }
   .s-iterations { gap: 8px; }
+  .slide-tools-inline {
+    left: 10px;
+    right: 10px;
+    bottom: 10px;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 5px;
+  }
+  .slide-tools-label { text-align: center; font-size: 9px; }
+  .slide-tools-list {
+    max-width: 100%;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 6px;
+    overflow: visible;
+  }
+  .slide-tool-chip {
+    justify-content: center;
+    min-width: 0;
+    padding: 7px 8px;
+    font-size: 12px;
+  }
 
   /* Bottom bar */
   #bottom-bar { height: 60px; padding: 0 10px; gap: 8px; }
