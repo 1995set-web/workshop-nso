@@ -311,29 +311,6 @@
         </a>
       `).join('');
     }
-
-    renderInlineSlideTools(tools);
-  }
-
-  function renderInlineSlideTools(tools) {
-    document.querySelectorAll('.slide-tools-inline').forEach(el => el.remove());
-
-    const activeSlide = document.getElementById('slide-' + currentIdx);
-    if (!activeSlide || !tools.length) return;
-
-    const strip = document.createElement('div');
-    strip.className = 'slide-tools-inline';
-    strip.innerHTML = `
-      <div class="slide-tools-label">ИИ для этого слайда</div>
-      <div class="slide-tools-list">
-        ${tools.map(tool => `
-          <a href="${tool.url}" target="_blank" rel="noopener" class="slide-tool-chip${toolClass(tool)}" title="${tool.title || tool.name}">
-            <span>${tool.icon || '🤖'}</span>${tool.name}
-          </a>
-        `).join('')}
-      </div>
-    `;
-    activeSlide.appendChild(strip);
   }
 
   // ── Prompt builder ────────────────────────────────────────
