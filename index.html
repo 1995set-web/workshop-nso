@@ -4,8 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <meta name="theme-color" content="#1D2633">
-  <title>ИИ × Правительство НСО · Воркшоп 22 апреля 2026</title>
-  <link rel="stylesheet" href="css/style.css">
+  <title>ИИ × Команда аппарата полномочного представителя Президента Российской Федерации в Сибирском федеральном округе · Воркшоп 22 апреля 2026</title>
+  <link rel="stylesheet" href="css/style.css?v=20260422-sfo">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
@@ -23,7 +23,7 @@
       <span class="logo21-school">ШКОЛА</span>
     </div>
   </div>
-  <div class="header-title">ИИ × ПРАВИТЕЛЬСТВО НСО · <span id="header-block-name">Открытие</span></div>
+  <div class="header-title">ИИ × Команда аппарата полномочного представителя Президента Российской Федерации в Сибирском федеральном округе · <span id="header-block-name">Открытие</span></div>
   <div class="header-meta">
     <span class="slide-counter" id="slide-counter">1 / 36</span>
     <span class="online-badge">
@@ -56,9 +56,9 @@
   <button class="mob-btn reaction-btn" data-reaction="🤔" title="Не понял">🤔<span>Вопрос</span></button>
   <button class="mob-btn reaction-btn" data-reaction="⚡" title="Интересно">⚡<span>Огонь</span></button>
   <div class="mob-sep"></div>
-  <button class="mob-btn" id="mob-qa">❓<span>Спросить</span></button>
-  <button class="mob-btn" id="mob-builder">⚗️<span>Промпт</span></button>
-  <button class="mob-btn" id="mob-notepad">📝<span>Заметки</span></button>
+  <button class="mob-btn" id="mob-qa" title="Задать вопрос спикеру" aria-label="Задать вопрос спикеру">❓<span>Вопрос</span></button>
+  <button class="mob-btn" id="mob-builder" title="Составить промпт" aria-label="Составить промпт">⚗️<span>Промпт</span></button>
+  <button class="mob-btn" id="mob-notepad" title="Открыть заметки" aria-label="Открыть заметки">📝<span>Заметки</span></button>
   <div class="mob-sep"></div>
   <button class="mob-btn" id="mob-ai">🤖<span>ИИ</span></button>
   <button class="mob-btn" id="mob-artifacts">📄<span>Артефакты</span></button>
@@ -115,22 +115,26 @@
 
 <!-- ═══════ REACTIONS (left fab group) ═══════ -->
 <div id="reactions-bar">
-  <button class="reaction-btn" data-reaction="👍" title="Понял">
-    👍<span class="reaction-count" id="rc-1">0</span>
+  <button class="reaction-btn" data-reaction="👍" title="Понял" aria-label="Отправить реакцию: понял">
+    <span class="reaction-emoji">👍</span><span class="reaction-label">Понял</span><span class="reaction-count" id="rc-1">0</span>
   </button>
-  <button class="reaction-btn" data-reaction="🤔" title="Не понял">
-    🤔<span class="reaction-count" id="rc-2">0</span>
+  <button class="reaction-btn" data-reaction="🤔" title="Нужен разбор" aria-label="Отправить реакцию: нужен разбор">
+    <span class="reaction-emoji">🤔</span><span class="reaction-label">Разбор</span><span class="reaction-count" id="rc-2">0</span>
   </button>
-  <button class="reaction-btn" data-reaction="⚡" title="Вопрос">
-    ⚡<span class="reaction-count" id="rc-3">0</span>
+  <button class="reaction-btn" data-reaction="⚡" title="Интересно" aria-label="Отправить реакцию: интересно">
+    <span class="reaction-emoji">⚡</span><span class="reaction-label">Интересно</span><span class="reaction-count" id="rc-3">0</span>
   </button>
 </div>
 
 <!-- PROMPT BUILDER FAB -->
-<button id="builder-fab" title="Конструктор промпта">⚗️</button>
+<button id="builder-fab" title="Составить промпт" aria-label="Составить промпт">
+  <span class="fab-icon">⚗️</span><span class="fab-label">Промпт</span>
+</button>
 
 <!-- NOTEPAD FAB -->
-<button id="notepad-fab" title="Мои заметки">📝</button>
+<button id="notepad-fab" title="Открыть заметки" aria-label="Открыть заметки">
+  <span class="fab-icon">📝</span><span class="fab-label">Заметки</span>
+</button>
 
 <!-- ═══════ PROMPT BUILDER PANEL ═══════ -->
 <div id="builder-panel">
@@ -176,7 +180,9 @@
 </div>
 
 <!-- ═══════ Q&A FAB ═══════ -->
-<button id="qa-fab" title="Задать вопрос">❓</button>
+<button id="qa-fab" title="Задать вопрос спикеру" aria-label="Задать вопрос спикеру">
+  <span class="fab-icon">❓</span><span class="fab-label">Вопрос</span>
+</button>
 
 <!-- Q&A PANEL -->
 <div id="qa-panel">
@@ -199,10 +205,10 @@
 <div id="toast"></div>
 
 <!-- ═══════ SCRIPTS ═══════ -->
-<script src="js/config.js"></script>
-<script src="js/data.js"></script>
-<script src="js/sync.js"></script>
-<script src="js/participant.js"></script>
+<script src="js/config.js?v=20260422-sfo"></script>
+<script src="js/data.js?v=20260422-sfo"></script>
+<script src="js/sync.js?v=20260422-sfo"></script>
+<script src="js/participant.js?v=20260422-sfo"></script>
 
 </body>
 </html>

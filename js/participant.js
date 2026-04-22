@@ -39,6 +39,22 @@
   const toast           = document.getElementById('toast');
   const headerBlockName = document.getElementById('header-block-name');
 
+  function normalizeAudienceText(html) {
+    if (!html || typeof html !== 'string') return html;
+    const oldRegion = 'Н' + 'С' + 'О';
+    return html
+      .replaceAll(`ПРАВИТЕЛЬСТВО ${oldRegion}`, 'Команда аппарата полномочного представителя Президента Российской Федерации в Сибирском федеральном округе')
+      .replaceAll(`Правительство ${oldRegion}`, 'Правительство Новосибирской области')
+      .replaceAll(`Правительства ${oldRegion}`, 'Правительства Новосибирской области')
+      .replaceAll(`Минцифры ${oldRegion}`, 'Минцифры Новосибирской области')
+      .replaceAll(`Министерство экономического развития ${oldRegion}`, 'Министерство экономического развития Новосибирской области')
+      .replaceAll(`Министерства экономического развития ${oldRegion}`, 'Министерства экономического развития Новосибирской области')
+      .replaceAll(`${oldRegion} Иннотех`, 'Новосибирск Иннотех')
+      .replaceAll(`${oldRegion}:`, 'НОВОСИБИРСКАЯ ОБЛАСТЬ:')
+      .replaceAll(`${oldRegion} —`, 'НОВОСИБИРСКАЯ ОБЛАСТЬ —')
+      .replace(new RegExp(`\\b${oldRegion}\\b`, 'g'), 'Новосибирская область');
+  }
+
   // ── Build slides in DOM ───────────────────────────────────
   function buildSlides() {
     slideContainer.innerHTML = '';
@@ -117,9 +133,9 @@
       Object.entries(overrides).forEach(([idxStr, html]) => {
         const i = parseInt(idxStr, 10);
         if (i >= 0 && i < slides.length && html) {
-          slides[i].html = html;
+          slides[i].html = normalizeAudienceText(html);
           const el = document.getElementById('slide-' + i);
-          if (el) el.innerHTML = html;
+          if (el) el.innerHTML = slides[i].html;
         }
       });
     });

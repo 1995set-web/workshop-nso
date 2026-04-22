@@ -1,5 +1,5 @@
 /* ============================================================
-   ВОРКШОП ИИ × НСО 2026 — Стили
+   ВОРКШОП ИИ × Команда аппарата полномочного представителя Президента Российской Федерации в Сибирском федеральном округе 2026 — Стили
    Брендбук Школы 21: #1D2633 · #861BE3 · #44EB99 · #00FFAF
    ============================================================ */
 
@@ -77,7 +77,7 @@ table { border-collapse: collapse; width: 100%; }
   letter-spacing: 0;
 }
 .logo21-school { font-size: 9px; color: var(--gray-dim); font-weight: 500; letter-spacing: 3px; margin-left: 4px; text-transform: uppercase; }
-.header-title { font-size: 13px; font-weight: 600; color: var(--gray); letter-spacing: 0.5px; text-align: center; }
+.header-title { flex: 1; min-width: 0; font-size: 13px; font-weight: 600; color: var(--gray); letter-spacing: 0.5px; text-align: center; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .header-meta { display: flex; align-items: center; gap: 16px; }
 .slide-counter { font-size: 13px; font-weight: 600; color: var(--white); }
 .online-badge { font-size: 12px; color: var(--green); display: flex; align-items: center; gap: 4px; }
@@ -124,6 +124,7 @@ table { border-collapse: collapse; width: 100%; }
 .s-title { text-align: center; max-width: 820px; }
 .s-eyebrow { font-size: 13px; color: var(--gray); font-weight: 500; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 24px; }
 .s-main-title { font-size: clamp(48px, 7vw, 88px); font-weight: 900; line-height: 1.05; margin-bottom: 20px; }
+.audience-title { display: inline-block; max-width: 980px; font-size: clamp(24px, 3.2vw, 46px); line-height: 1.12; }
 .s-sub { font-size: 20px; color: var(--gray); font-weight: 400; margin-bottom: 32px; }
 .s-stats { display: flex; gap: 32px; justify-content: center; flex-wrap: wrap; }
 .s-stats span { font-size: 15px; color: var(--green); font-weight: 600; background: rgba(68,235,153,0.1); padding: 6px 16px; border-radius: 20px; border: 1px solid rgba(68,235,153,0.2); }
@@ -445,14 +446,16 @@ table { border-collapse: collapse; width: 100%; }
 /* ─── Q&A PANEL ─── */
 #qa-fab {
   position: fixed; right: 16px; bottom: 76px; z-index: 130;
-  width: 46px; height: 46px; border-radius: 50%;
+  min-width: 46px; height: 46px; border-radius: 999px;
   background: var(--purple); color: var(--white);
   font-size: 18px; font-weight: 700;
   display: flex; align-items: center; justify-content: center;
+  gap: 8px; padding: 0 14px;
   box-shadow: 0 4px 16px rgba(134,27,227,0.5);
   cursor: pointer; border: none; transition: transform 0.2s, box-shadow 0.2s;
 }
 #qa-fab:hover { transform: scale(1.08); box-shadow: 0 6px 24px rgba(134,27,227,0.6); }
+#qa-fab .fab-label { color: var(--white); }
 #qa-fab.has-new { animation: qaWiggle 0.5s ease; }
 @keyframes qaWiggle { 0%,100%{transform:rotate(0)}25%{transform:rotate(-8deg)}75%{transform:rotate(8deg)} }
 
@@ -477,27 +480,31 @@ table { border-collapse: collapse; width: 100%; }
   display: flex; flex-direction: column; gap: 6px;
 }
 .reaction-btn {
-  width: 44px; height: 44px; border-radius: 50%;
+  min-width: 44px; width: auto; height: 44px; border-radius: 999px;
   background: rgba(29,38,51,0.9); border: 1px solid rgba(255,255,255,0.1);
   font-size: 20px; cursor: pointer; transition: transform 0.2s, background 0.2s;
   display: flex; align-items: center; justify-content: center;
-  position: relative;
+  position: relative; gap: 7px; padding: 0 12px;
 }
 .reaction-btn:hover { transform: scale(1.15); background: rgba(255,255,255,0.1); }
+.reaction-label { color: var(--gray); font-size: 11px; font-weight: 700; line-height: 1; white-space: nowrap; }
 .reaction-count { position: absolute; top: -4px; right: -4px; min-width: 18px; height: 18px; border-radius: 9px; background: var(--purple); color: var(--white); font-size: 10px; font-weight: 700; display: flex; align-items: center; justify-content: center; padding: 0 3px; display: none; }
 .reaction-count.visible { display: flex; }
 
 /* ─── PROMPT BUILDER ─── */
 #builder-fab {
   position: fixed; right: 16px; bottom: 132px; z-index: 130;
-  width: 44px; height: 44px; border-radius: 12px;
+  min-width: 44px; height: 44px; border-radius: 12px;
   background: rgba(29,38,51,0.95); border: 1px solid rgba(68,235,153,0.3);
   color: var(--green); font-size: 18px;
   display: flex; align-items: center; justify-content: center;
+  gap: 8px; padding: 0 12px;
   cursor: pointer; transition: transform 0.2s, background 0.2s;
   box-shadow: 0 2px 10px rgba(0,0,0,0.4);
 }
 #builder-fab:hover { transform: scale(1.08); background: rgba(68,235,153,0.12); }
+.fab-label { font-size: 12px; font-weight: 700; color: var(--gray); white-space: nowrap; }
+#builder-fab .fab-label { color: var(--green); }
 #builder-panel {
   position: fixed; left: 0; top: 55px; bottom: 64px; z-index: 125;
   width: 360px; max-width: 100vw;
@@ -522,10 +529,11 @@ table { border-collapse: collapse; width: 100%; }
 /* ─── NOTEPAD ─── */
 #notepad-fab {
   position: fixed; right: 16px; bottom: 186px; z-index: 130;
-  width: 44px; height: 44px; border-radius: 12px;
+  min-width: 44px; height: 44px; border-radius: 12px;
   background: rgba(29,38,51,0.95); border: 1px solid rgba(198,207,218,0.2);
   color: var(--gray); font-size: 18px;
   display: flex; align-items: center; justify-content: center;
+  gap: 8px; padding: 0 12px;
   cursor: pointer; transition: transform 0.2s, background 0.2s;
   box-shadow: 0 2px 10px rgba(0,0,0,0.4);
 }

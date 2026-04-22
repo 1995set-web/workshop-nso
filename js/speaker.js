@@ -37,6 +37,22 @@
   const copyPromptBtn   = document.getElementById('sp-copy-prompt');
   const promptSelect    = document.getElementById('sp-prompt-select');
 
+  function normalizeAudienceText(html) {
+    if (!html || typeof html !== 'string') return html;
+    const oldRegion = 'Н' + 'С' + 'О';
+    return html
+      .replaceAll(`ПРАВИТЕЛЬСТВО ${oldRegion}`, 'Команда аппарата полномочного представителя Президента Российской Федерации в Сибирском федеральном округе')
+      .replaceAll(`Правительство ${oldRegion}`, 'Правительство Новосибирской области')
+      .replaceAll(`Правительства ${oldRegion}`, 'Правительства Новосибирской области')
+      .replaceAll(`Минцифры ${oldRegion}`, 'Минцифры Новосибирской области')
+      .replaceAll(`Министерство экономического развития ${oldRegion}`, 'Министерство экономического развития Новосибирской области')
+      .replaceAll(`Министерства экономического развития ${oldRegion}`, 'Министерства экономического развития Новосибирской области')
+      .replaceAll(`${oldRegion} Иннотех`, 'Новосибирск Иннотех')
+      .replaceAll(`${oldRegion}:`, 'НОВОСИБИРСКАЯ ОБЛАСТЬ:')
+      .replaceAll(`${oldRegion} —`, 'НОВОСИБИРСКАЯ ОБЛАСТЬ —')
+      .replace(new RegExp(`\\b${oldRegion}\\b`, 'g'), 'Новосибирская область');
+  }
+
   // ── PIN check ─────────────────────────────────────────────
   function checkPin() {
     const stored = sessionStorage.getItem('speaker-auth');
@@ -370,7 +386,8 @@
         if (!a.target) a.target = '_blank';
         if (!a.rel) a.rel = 'noopener';
       });
-      const newHtml = el.innerHTML;
+      const newHtml = normalizeAudienceText(el.innerHTML);
+      el.innerHTML = newHtml;
       el.contentEditable = 'false';
       slides[currentIdx].html = newHtml;
       // Update filmstrip label
