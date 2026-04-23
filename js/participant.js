@@ -35,6 +35,7 @@
   const notepadPanel    = document.getElementById('notepad-panel');
   const notepadTextarea = document.getElementById('notepad-textarea');
   const notepadClear    = document.getElementById('notepad-clear');
+  const notepadEmail    = document.getElementById('notepad-email');
   const blockName       = document.getElementById('block-name');
   const toast           = document.getElementById('toast');
   const headerBlockName = document.getElementById('header-block-name');
@@ -293,6 +294,7 @@
     const fields = ['role', 'context', 'task', 'format', 'constraint'];
     const preview = document.getElementById('builder-preview');
     const copyBtnB = document.getElementById('builder-copy-btn');
+    const resetBtn = document.getElementById('builder-reset-btn');
 
     function updatePreview() {
       const parts = fields.map(f => {
@@ -316,6 +318,18 @@
         }
       });
     }
+
+    if (resetBtn) {
+      resetBtn.addEventListener('click', () => {
+        fields.forEach(f => {
+          const el = document.getElementById('builder-' + f);
+          if (el) el.value = '';
+        });
+        updatePreview();
+        document.getElementById('builder-role')?.focus();
+        showToast('Конструктор очищен');
+      });
+    }
   }
 
   // ── Notepad (localStorage) ────────────────────────────────
@@ -333,6 +347,18 @@
           notepadTextarea.value = '';
           localStorage.removeItem('workshop-nso-notes');
         }
+      });
+    }
+    if (notepadEmail) {
+      notepadEmail.addEventListener('click', () => {
+        const text = notepadTextarea?.value.trim();
+        if (!text) {
+          showToast('Заметки пустые');
+          return;
+        }
+        const subject = 'Заметки с воркшопа по ИИ';
+        const body = `${text}\n\n---\nОтправлено с сайта воркшопа`;
+        window.location.href = `mailto:?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
       });
     }
   }
