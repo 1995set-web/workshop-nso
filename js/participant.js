@@ -39,6 +39,7 @@
   const blockName       = document.getElementById('block-name');
   const toast           = document.getElementById('toast');
   const headerBlockName = document.getElementById('header-block-name');
+  const mobAiPanel      = document.getElementById('mob-ai-panel');
 
   function normalizeAudienceText(html) {
     if (!html || typeof html !== 'string') return html;
@@ -54,6 +55,34 @@
       .replaceAll(`${oldRegion}:`, 'НОВОСИБИРСКАЯ ОБЛАСТЬ:')
       .replaceAll(`${oldRegion} —`, 'НОВОСИБИРСКАЯ ОБЛАСТЬ —')
       .replace(new RegExp(`\\b${oldRegion}\\b`, 'g'), 'Новосибирская область');
+  }
+
+  function closePanels(options = {}) {
+    const keepTask = options.keepTask === true;
+    const keepArtifacts = options.keepArtifacts === true;
+    const keepQa = options.keepQa === true;
+    const keepBuilder = options.keepBuilder === true;
+    const keepNotepad = options.keepNotepad === true;
+    const keepMobAi = options.keepMobAi === true;
+
+    closeCopyDropdown();
+    if (!keepArtifacts) artifactsPanel?.classList.remove('open');
+    if (!keepQa) qaPanel?.classList.remove('open');
+    if (!keepBuilder) builderPanel?.classList.remove('open');
+    if (!keepNotepad) notepadPanel?.classList.remove('open');
+    if (!keepMobAi) mobAiPanel?.classList.remove('open');
+
+    if (!keepTask && showTaskOpen) {
+      userDismissedTask = true;
+      toggleTask(false);
+    }
+  }
+
+  function togglePanel(panel, keepKey) {
+    if (!panel) return;
+    const willOpen = !panel.classList.contains('open');
+    closePanels(willOpen ? { [keepKey]: true } : {});
+    panel.classList.toggle('open', willOpen);
   }
 
   // ── Build slides in DOM ───────────────────────────────────
@@ -228,6 +257,7 @@
       restoreBtn.style.display = (!open && taskAvailable) ? 'inline-flex' : 'none';
     }
     if (open) {
+      closePanels({ keepTask: true });
       const slide = slides[currentIdx];
       if (slide.taskHtml && taskContent) taskContent.innerHTML = slide.taskHtml;
     }
@@ -404,6 +434,7 @@
 
     // Artifacts
     artifactsBtn?.addEventListener('click', () => {
+      closePanels({ keepArtifacts: true });
       artifactsPanel?.classList.add('open');
     });
     artifactsClose?.addEventListener('click', () => {
@@ -412,7 +443,7 @@
 
     // Q&A
     qaTrigger?.addEventListener('click', () => {
-      qaPanel?.classList.toggle('open');
+      togglePanel(qaPanel, 'keepQa');
     });
     qaSend?.addEventListener('click', () => {
       const text = qaTextarea?.value.trim();
@@ -425,15 +456,13 @@
 
     // Builder
     builderFab?.addEventListener('click', () => {
-      builderPanel?.classList.toggle('open');
-      notepadPanel?.classList.remove('open');
+      togglePanel(builderPanel, 'keepBuilder');
     });
     builderClose?.addEventListener('click', () => builderPanel?.classList.remove('open'));
 
     // Notepad
     notepadFab?.addEventListener('click', () => {
-      notepadPanel?.classList.toggle('open');
-      builderPanel?.classList.remove('open');
+      togglePanel(notepadPanel, 'keepNotepad');
     });
 
     // Notepad close button
@@ -443,21 +472,19 @@
 
     // ── Mobile action bar ──────────────────────────────────
     document.getElementById('mob-qa')?.addEventListener('click', () => {
-      qaPanel?.classList.toggle('open');
+      togglePanel(qaPanel, 'keepQa');
     });
     document.getElementById('mob-builder')?.addEventListener('click', () => {
-      builderPanel?.classList.toggle('open');
-      notepadPanel?.classList.remove('open');
+      togglePanel(builderPanel, 'keepBuilder');
     });
     document.getElementById('mob-notepad')?.addEventListener('click', () => {
-      notepadPanel?.classList.toggle('open');
-      builderPanel?.classList.remove('open');
+      togglePanel(notepadPanel, 'keepNotepad');
     });
     document.getElementById('mob-ai')?.addEventListener('click', () => {
-      document.getElementById('mob-ai-panel')?.classList.toggle('open');
+      togglePanel(mobAiPanel, 'keepMobAi');
     });
     document.getElementById('mob-artifacts')?.addEventListener('click', () => {
-      artifactsPanel?.classList.toggle('open');
+      togglePanel(artifactsPanel, 'keepArtifacts');
     });
 
     // Reactions
